@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="./assets/github-logo.png"
+      type="image/x-icon"
+    />
+    <title>Github Issue Tracker</title>
+    <!-- Add Tailwind and DaisyUI CDN  -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <header>
+      <div class="container mx-auto">
+        <div class="navbar bg-base-100 shadow-sm">
+          <div class="flex-1">
+            <a class="btn btn-ghost text-xl">daisyUI</a>
+          </div>
+          <div class="flex gap-2">
+            <input
+              type="text"
+              placeholder="Search"
+              class="input input-bordered w-24 md:w-auto"
+            />
+            <div class="dropdown dropdown-end">
+              <div
+                tabindex="0"
+                role="button"
+                class="btn btn-ghost btn-circle avatar"
+              >
+                <div class="w-10 rounded-full">
+                  <img
+                    alt="Tailwind CSS Navbar component"
+                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  />
+                </div>
+              </div>
+              <ul
+                tabindex="-1"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              >
+                <li>
+                  <a class="justify-between">
+                    Profile
+                    <span class="badge">New</span>
+                  </a>
+                </li>
+                <li><a>Settings</a></li>
+                <li><a>Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="login">
+      <div class="container mx-auto">
+        <div class="hero bg-base-200 min-h-screen">
+          <div class="hero-content flex-col lg:flex-row-reverse">
+            <div class="text-center lg:text-left">
+              <h1 class="text-5xl font-bold">Login now!</h1>
+              <p class="py-6">
+                Provident cupiditate voluptatem et in. Quaerat fugiat ut
+                assumenda excepturi exercitationem quasi. In deleniti eaque aut
+                repudiandae et a id nisi.
+              </p>
+            </div>
+            <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+              <div class="card-body">
+                <fieldset class="fieldset">
+                  <label class="label">Email</label>
+                  <input type="email" class="input" placeholder="Email" />
+                  <label class="label">Password</label>
+                  <input type="password" class="input" placeholder="Password" />
+                  <div><a class="link link-hover">Forgot password?</a></div>
+                  <button class="btn btn-neutral mt-4">Login</button>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="maincontent">
+      <section id="loader">
+        <span class="loading loading-ball text-secondary loading-xs"></span>
+        <span class="loading loading-ball text-secondary loading-sm"></span>
+        <span class="loading loading-ball text-secondary loading-md"></span>
+        <span class="loading loading-ball text-secondary loading-lg"></span>
+        <span class="loading loading-ball text-secondary loading-xl"></span>
+      </section>
+
+      <section id="issue-container">
+        <div id="issue-tab"></div>
+        <div id="issue-list">
+          <div class="single-issue">
+            <div class="card w-96 bg-base-100 shadow-sm">
+              <div class="card-body">
+                <span class="badge badge-xs badge-warning">Most Popular</span>
+                <div class="flex justify-between">
+                  <h2 class="text-3xl font-bold">Premium</h2>
+                  <span class="text-xl">$29/mo</span>
+                </div>
+                <ul class="mt-6 flex flex-col gap-2 text-xs">
+                  <li>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 me-2 inline-block text-success"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span>High-resolution image generation</span>
+                  </li>
+                  <li>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 me-2 inline-block text-success"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span>Customizable style templates</span>
+                  </li>
+                  <li>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 me-2 inline-block text-success"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span>Batch processing capabilities</span>
+                  </li>
+                  <li>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 me-2 inline-block text-success"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span>AI-driven image enhancements</span>
+                  </li>
+                  <li class="opacity-50">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 me-2 inline-block text-base-content/50"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span class="line-through">Seamless cloud integration</span>
+                  </li>
+                  <li class="opacity-50">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="size-4 me-2 inline-block text-base-content/50"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span class="line-through"
+                      >Real-time collaboration tools</span
+                    >
+                  </li>
+                </ul>
+                <div class="mt-6">
+                  <button class="btn btn-primary btn-block">Subscribe</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="modal-box-desing"></div>
+    </section>
+    <!-- Open the modal using ID.showModal() method -->
+    <button class="btn" onclick="my_modal_2.showModal()">open modal</button>
+    <dialog id="my_modal_2" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <h3 class="text-lg font-bold">Hello!</h3>
+        <p class="py-4">Press ESC key or click outside to close</p>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+    <script src="./script.js"></script>
+  </body>
+</html>
