@@ -162,12 +162,13 @@
 
             <!-- Issue List -->
             <div
-              id="issue-list"
+              id="issue-list-area"
               class="space-y-4 rounded-2xl bg-base-100 shadow-sm"
             >
               <!-- issue counter & mark -->
               <div
-                class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4"
+                id="issue-count-area"
+                class="hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4"
               >
                 <!-- Left -->
                 <div class="flex items-center gap-3">
@@ -199,6 +200,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="divider my-0 gap-0 h-0"></div>
               <div
                 id="issue-list-container"

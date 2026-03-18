@@ -13,6 +13,7 @@ const footer = document.querySelector("footer");
 
 const loader = document.getElementById("loader");
 const issueTab = document.getElementById("issue-tab");
+const issueCountArea = document.getElementById("issue-count-area");
 const issueCount = document.getElementById("issue-count");
 const issueListContainer = document.getElementById("issue-list-container");
 
@@ -64,9 +65,10 @@ const allDataShow = async () => {
   try {
     const res = await fetch(allDataUrl);
     const data = await res.json();
-    showIssueData(data);
-
-    loader.classList.add("hidden");
+    setTimeout(() => {
+      showIssueData(data);
+      loader.classList.add("hidden");
+    }, 1000);
   } catch (error) {}
 };
 
@@ -89,18 +91,42 @@ const showIssueData = (res) => {
   // "createdAt": "2024-01-15T10:30:00Z",
   // "updatedAt": "2024-01-15T10:30:00Z"
 
-  issueListContainer.innerHTML = "";
   issueCount.innerHTML = `${issueList.length} Issues `;
 
+  issueListContainer.innerHTML = "";
+
   issueList.forEach((issue) => {
-    issue.innerHTML = `
+    const singleIssue = document.createElement("div");
+
+    singleIssue.innerHTML = `
   <div
                   class="single-issue-card border-t-5 border-t-green-500 card w-full bg-base-100 shadow-sm"
                 >
                   <div class="card-body overflow-hidden">
                     <div class="flex justify-between items-center">
-                      <img src="./assets/Open-Status.png" alt="" />
-                      <span class="uppercase badge badge-soft badge-secondary">${issue.priority}</span>
+                    
+                    ${
+                      issue.status == "open"
+                        ? `<img src="./assets/Open-Status.png" alt="" />`
+                        : `<img src="./assets/Closed- Status .png" alt="" />`
+                    }
+                    
+                    ${(() => {
+                      let priorityBadge;
+                      const prio = issue.priority.toLowerCase();
+                      switch (prio) {
+                        case "high":
+                          priorityBadge = "badge-error";
+                          break;
+                        case "medium":
+                          priorityBadge = "badge-warning";
+                          break;
+                        case "low":
+                          priorityBadge = "badge-success";
+                          break;
+                      }
+                      return `<span class="uppercase badge badge-soft ${priorityBadge}">${prio}</span>`;
+                    })()}
                     </div>
 
                     <div class="space-y-2">
@@ -111,54 +137,60 @@ const showIssueData = (res) => {
                         ${issue.description}
                       </p>
                       <div>
-                        <span
-                          class="uppercase badge badge-soft badge-secondary gap-1"
-                          ><img src="./assets/bug.svg" alt="" /></span
-                        >
-                        <span
-                          class="uppercase badge badge-soft badge- gap-1"
-                        >
-                          <img src="./assets/lifebouy.svg" alt="" />help
-                          wanted</span
-                        >
-                        ${issue.labels.map((label) => {
-                          label = label.toLowerCase();
-                          let badgeColor = "badge-error";
-                          if (label === "bug") {
-                            badgeColor = "badge-secondary";
-                          } else if (label === "help wanted") {
-                            badgeColor = "badge-warning";
-                          } else if (label === "enhancement") {
-                            badgeColor = "badge-accent";
-                          } else if (label === "good first issue") {
-                            badgeColor = "badge-success";
-                          } else {
-                            badgeColor = "badge-success";
-                          }
-                        })}
+                        ${issue.labels
+                          .map((label) => {
+                            label = label.toLowerCase();
+
+                            let badgeColor = "badge-error";
+                            let icon = "";
+
+                            if (label === "bug") {
+                              badgeColor = "badge-secondary";
+                              icon = `<img src="./assets/bug.svg" class="w-4 h-4" />`;
+                            } else if (label === "help wanted") {
+                              badgeColor = "badge-warning";
+                              icon = `<img src="./assets/lifebouy.svg" class="w-4 h-4" />`;
+                            } else if (label === "enhancement") {
+                              badgeColor = "badge-accent";
+                            } else if (label === "good first issue") {
+                              badgeColor = "badge-success";
+                            }
+
+                            return `
+                                        <span class="badge badge-soft ${badgeColor} gap-2 my-1 ">
+                                                ${icon} ${label}
+                                        </span>
+                                        `;
+                          })
+                          .join("")}
                       </div>
                     </div>
                     <div class="divider my-0 gap-0 w-[130%] -ml-[15%]"></div>
                     <div class="flex justify-between items-center">
-                      <span class="text-gray-400">#1 by John Doe</span>
-                      <span class="text-gray-400">1/15/2024</span>
+                      <span class="text-gray-400">#${issue.id} by ${issue.author}</span>
+                      <span class="text-gray-400"><span>
+                        ${new Date(issue.createdAt).toLocaleDateString()}
+                        </span></span>
                     </div>
                     <div class="flex justify-between items-center">
                       <span class="text-gray-400"
                         >Assignee:<br />
                         <span class="font-semibold text-neutral-500"
-                          >john doe
+                          >${issue.assignee}
                         </span>
                       </span>
                       <span class="text-gray-400"
                         >Updated:<br /><span
                           class="font-semibold text-neutral-500"
-                          >1/15/2024</span
+                          >${new Date(issue.updatedAt).toLocaleDateString()}</span
                         ></span
                       >
                     </div>
                   </div>
                 </div>
   `;
+
+    issueCountArea.classList.remove("hidden");
+    issueListContainer.appendChild(singleIssue);
   });
 };
