@@ -79,7 +79,7 @@ const allDataShow = async () => {
 
 const showIssueData = (res) => {
   const issueList = res.data;
-  console.log(issueList);
+  //   console.log(issueList);
   //   id": 1,
   // "title": "Fix navigation menu on mobile devices",
   // "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
@@ -103,7 +103,13 @@ const showIssueData = (res) => {
 
     singleIssue.innerHTML = `
   <div data-status="${issue.status}" data-issue="${issue.id}"
-                  class="single-issue-card border-t-5 border-t-green-500 card w-full bg-base-100 shadow-sm"
+                  class="single-issue-card border-t-5 cursor-pointer
+                  ${
+                    issue.status == "open"
+                      ? ` border-t-green-500`
+                      : ` border-t-purple-500`
+                  }
+                   card w-full bg-base-100 shadow-sm"
                 >
                   <div class="card-body overflow-hidden">
                     <div   class="flex justify-between items-center">
@@ -209,7 +215,7 @@ const filterIssue = (status) => {
   //   console.log(issueCards);
   issueCards.forEach((card) => {
     const cardStatus = card.getAttribute("data-status");
-    console.log(cardStatus);
+    //     console.log(cardStatus);
     if (status == "all" || cardStatus == status) {
       card.parentNode.classList.remove("hidden");
       count++;
@@ -236,3 +242,130 @@ tabs.forEach((tab) => {
     });
   });
 });
+
+// single issue load in modal popup
+
+// const singleIssue = document.querySelectorAll(".single-issue-card");
+// console.log(singleIssue);
+// singleIssue.forEach((issueCard) => {
+//   issueCard.addEventListener("click", () => {
+//     console.log("clicked", issueCard);
+//   });
+// });
+
+document.addEventListener("click", (e) => {
+  const issueCard = e.target.closest(".single-issue-card");
+
+  if (issueCard) {
+    //     console.log("clicked", issueCard);
+    const dataId = issueCard.getAttribute("data-issue");
+    //     console.log(dataId);
+    singleCard(dataId);
+  }
+});
+
+//data fetch based on id
+
+const singleCard = async (id) => {
+  try {
+    const res = await fetch(
+      `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`,
+    );
+    const details = await res.json();
+    //     console.log(details.data);
+    displayIssueModal(details.data);
+  } catch (error) {}
+};
+
+// modal popup
+
+displayIssueModal = (data) => {
+  const issueModal = document.getElementById("issue-modal");
+  //   console.log(data);
+  issueModal.innerHTML = `
+        <div class="modal-box max-w-2xl">
+        <h2 class="font-bold text-2xl">${data.title}</h2>
+        <ul class="flex gap-8 list-disc">
+        ${
+          data.status == "open"
+            ? `<li class="list-none badge badge-success text-white">Opened</li>`
+            : `<li class="list-none badge badge-error text-white">Closed</li>`
+        }
+          
+
+          <li>${
+            data.status == "open" ? "Opened" : "Closed"
+          } By ${data.author}</li>
+
+          <li>${new Date(data.updatedAt).toLocaleDateString()}</li>
+        </ul>
+        <div class="my-5">
+
+           ${data.labels
+             .map((label) => {
+               label = label.toLowerCase();
+
+               let badgeColor = "badge-error";
+               let icon = "";
+
+               if (label === "bug") {
+                 badgeColor = "badge-secondary";
+                 icon = `<img src="./assets/bug.svg" class="w-4 h-4" />`;
+               } else if (label === "help wanted") {
+                 badgeColor = "badge-warning";
+                 icon = `<img src="./assets/lifebouy.svg" class="w-4 h-4" />`;
+               } else if (label === "enhancement") {
+                 badgeColor = "badge-accent";
+               } else if (label === "good first issue") {
+                 badgeColor = "badge-success";
+               }
+
+               return `
+                <span class="badge badge-soft ${badgeColor} gap-2 my-1 ">
+                        ${icon} ${label}
+                </span>
+                `;
+             })
+             .join("")}
+
+        </div>
+        <p class="mb-5">
+          ${data.description}
+        </p>
+        <div class="bg-gray-50 rounded-xl grid grid-cols-2 items-center p-5">
+          <div class="font-light">
+            Assignee:
+            <br />
+            <span class="font-semibold capitalize">${data.assignee}</span>
+          </div>
+          <div class="font-light">
+            Priority: <br />
+             ${(() => {
+               let priorityBadge;
+               const prio = data.priority.toLowerCase();
+               switch (prio) {
+                 case "high":
+                   priorityBadge = "bg-red-500";
+                   break;
+                 case "medium":
+                   priorityBadge = "bg-yellow-500";
+                   break;
+                 case "low":
+                   priorityBadge = "bg-green-500";
+                   break;
+               }
+               return `<span class="uppercase badge text-white ${priorityBadge}">${prio}</span>`;
+             })()}
+
+          </div>
+        </div>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn btn-primary">Close</button>
+          </form>
+        </div>
+      </div>
+  `;
+  issueModal.showModal();
+};
