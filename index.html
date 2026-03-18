@@ -20,7 +20,7 @@
   </head>
 
   <body class="">
-    <header class="bg-base-100 shadow-sm hidden">
+    <header class="bg-base-100 shadow-sm">
       <div class="w-11/12 mx-auto">
         <div class="navbar">
           <div class="flex-1">
@@ -59,7 +59,7 @@
       </div>
     </header>
 
-    <section id="login" class="">
+    <section id="login" class="hidden">
       <div class="container mx-auto">
         <div class="hero min-h-screen">
           <div
@@ -123,7 +123,7 @@
       </div>
     </section>
 
-    <section id="maincontent" class="hidden">
+    <section id="maincontent" class="">
       <!-- Content -->
       <div id="issue-container">
         <div class="container mx-auto px-4 mt-15">
@@ -132,16 +132,20 @@
             id="issue-tab"
             class="mb-6 p-5 flex gap-3 bg-base-100 rounded-xl [&>button]:px-10"
           >
-            <button class="btn btn-primary">All</button>
-            <button class="btn btn-outline btn-primary">Open</button>
-            <button class="btn btn-outline btn-primary">Closed</button>
+            <button data-tab="all" class="btn btn-primary">All</button>
+            <button data-tab="all" class="btn btn-outline btn-primary">
+              Open
+            </button>
+            <button data-tab="all" class="btn btn-outline btn-primary">
+              Closed
+            </button>
           </div>
 
           <div id="issue-content">
             <!-- Loader -->
             <div
               id="loader"
-              class="flex justify-center items-center gap-2 py-10"
+              class="flex hidden justify-center items-center gap-2 py-10"
             >
               <span
                 class="loading loading-ball text-secondary loading-xs"
@@ -168,7 +172,7 @@
               <!-- issue counter & mark -->
               <div
                 id="issue-count-area"
-                class="hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4"
+                class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4"
               >
                 <!-- Left -->
                 <div class="flex items-center gap-3">
@@ -214,9 +218,7 @@
       </div>
     </section>
 
-    <footer
-      class="hidden footer footer-horizontal footer-center bg-base-100 p-10"
-    >
+    <footer class="footer footer-horizontal footer-center bg-base-100 p-10">
       <aside>
         <img class="w-16" src="./assets/github-logo.png" alt="github-logo" />
         <p class="font-bold">GitHub Issuer</p>

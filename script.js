@@ -51,7 +51,6 @@ loginForm.addEventListener("submit", (event) => {
     header.classList.remove("hidden");
     mainSection.classList.remove("hidden");
     footer.classList.remove("hidden");
-    allDataShow();
   } else {
     alert("Username or Password is Wrong");
     loginForm.reset();
@@ -103,11 +102,11 @@ const showIssueData = (res) => {
     const singleIssue = document.createElement("div");
 
     singleIssue.innerHTML = `
-  <div
+  <div data-status="${issue.status}" data-issue="${issue.id}"
                   class="single-issue-card border-t-5 border-t-green-500 card w-full bg-base-100 shadow-sm"
                 >
                   <div class="card-body overflow-hidden">
-                    <div class="flex justify-between items-center">
+                    <div   class="flex justify-between items-center">
                     
                     ${
                       issue.status == "open"
@@ -198,5 +197,42 @@ const showIssueData = (res) => {
     issueListContainer.appendChild(singleIssue);
   });
 };
+allDataShow();
 
 // tab activation and data filtering
+
+const tabs = document.querySelectorAll("#issue-tab button");
+
+const filterIssue = (status) => {
+  const issueCards = document.querySelectorAll(".single-issue-card");
+  let count = 0;
+  //   console.log(issueCards);
+  issueCards.forEach((card) => {
+    const cardStatus = card.getAttribute("data-status");
+    console.log(cardStatus);
+    if (status == "all" || cardStatus == status) {
+      card.parentNode.classList.remove("hidden");
+      count++;
+    } else {
+      card.parentNode.classList.add("hidden");
+    }
+  });
+  issueCount.innerHTML = `${count} Issues`;
+};
+
+//tab event
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    // remove styling
+    //     console.log(tab);
+    tabs.forEach((t) => {
+      t.classList.remove("btn-primary");
+      t.classList.add("btn-outline");
+      tab.classList.add("btn-primary");
+      tab.classList.remove("btn-outline");
+      const tabName = tab.textContent.trim().toLowerCase();
+      //       console.log(tabName);
+      filterIssue(tabName);
+    });
+  });
+});
