@@ -20,7 +20,7 @@
   </head>
 
   <body class="">
-    <header class="bg-base-100 shadow-sm">
+    <header class="bg-base-100 shadow-sm hidden">
       <div class="w-11/12 mx-auto">
         <div class="navbar">
           <div class="flex-1">
@@ -59,7 +59,7 @@
       </div>
     </header>
 
-    <section id="login" class="hidden">
+    <section id="login" class="">
       <div class="container mx-auto">
         <div class="hero min-h-screen">
           <div
@@ -123,7 +123,7 @@
       </div>
     </section>
 
-    <section id="maincontent" class="">
+    <section id="maincontent" class="hidden">
       <!-- Content -->
       <div id="issue-container">
         <div class="container mx-auto px-4 mt-15">
@@ -162,7 +162,7 @@
 
             <!-- Issue List -->
             <div
-              id="issue-list-area"
+              id="issue-list-area "
               class="space-y-4 rounded-2xl bg-base-100 shadow-sm"
             >
               <!-- issue counter & mark -->
@@ -214,7 +214,9 @@
       </div>
     </section>
 
-    <footer class="footer footer-horizontal footer-center bg-base-100 p-10">
+    <footer
+      class="hidden footer footer-horizontal footer-center bg-base-100 p-10"
+    >
       <aside>
         <img class="w-16" src="./assets/github-logo.png" alt="github-logo" />
         <p class="font-bold">GitHub Issuer</p>

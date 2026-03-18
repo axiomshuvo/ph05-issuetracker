@@ -14,6 +14,7 @@ const footer = document.querySelector("footer");
 const loader = document.getElementById("loader");
 const issueTab = document.getElementById("issue-tab");
 const issueCountArea = document.getElementById("issue-count-area");
+
 const issueCount = document.getElementById("issue-count");
 const issueListContainer = document.getElementById("issue-list-container");
 
@@ -50,10 +51,10 @@ loginForm.addEventListener("submit", (event) => {
     header.classList.remove("hidden");
     mainSection.classList.remove("hidden");
     footer.classList.remove("hidden");
+    allDataShow();
   } else {
     alert("Username or Password is Wrong");
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
+    loginForm.reset();
   }
 });
 
@@ -69,10 +70,13 @@ const allDataShow = async () => {
       showIssueData(data);
       loader.classList.add("hidden");
     }, 1000);
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error fetching issues:", error);
+    loader.classList.add("hidden");
+    issueListContainer.innerHTML =
+      "<p class='text-red-500'>Failed to load issues.</p>";
+  }
 };
-
-allDataShow();
 
 const showIssueData = (res) => {
   const issueList = res.data;
@@ -194,3 +198,5 @@ const showIssueData = (res) => {
     issueListContainer.appendChild(singleIssue);
   });
 };
+
+// tab activation and data filtering
