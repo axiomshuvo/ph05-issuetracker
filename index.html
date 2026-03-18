@@ -18,8 +18,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="./style.css" />
   </head>
+
   <body class="">
-    <header class="bg-base-100 shadow-sm">
+    <header class="bg-base-100 shadow-sm hidden">
       <div class="w-11/12 mx-auto">
         <div class="navbar">
           <div class="flex-1">
@@ -58,7 +59,7 @@
       </div>
     </header>
 
-    <!-- <section id="login">
+    <section id="login">
       <div class="container mx-auto">
         <div class="hero min-h-screen">
           <div
@@ -80,11 +81,12 @@
               <div class="card-body">
                 <form class="fieldset">
                   <fieldset class="fieldset">
-                    <label class="label">Email</label>
+                    <label class="label">Username</label>
                     <input
-                      type="email"
+                      id="username"
+                      type="text"
                       class="input input-md validator w-full"
-                      placeholder="Email"
+                      placeholder="username"
                       required
                     />
                     <p class="validator-hint hidden">Default: admin</p>
@@ -93,6 +95,7 @@
                   <label class="fieldset">
                     <span class="label">Password</span>
                     <input
+                      id="password"
                       type="password"
                       class="input input-md validator w-full"
                       placeholder="Password"
@@ -118,8 +121,9 @@
           </div>
         </div>
       </div>
-    </section> -->
-    <section id="maincontent" class="min-h-screen">
+    </section>
+
+    <section id="maincontent" class="hidden">
       <!-- Content -->
       <div id="issue-container">
         <div class="container mx-auto px-4 mt-15">
@@ -261,7 +265,10 @@
         </div>
       </div>
     </section>
-    <footer class="footer footer-horizontal footer-center bg-base-100 p-10">
+
+    <footer
+      class="hidden footer footer-horizontal footer-center bg-base-100 p-10"
+    >
       <aside>
         <img class="w-16" src="./assets/github-logo.png" alt="github-logo" />
         <p class="font-bold">GitHub Issuer</p>
