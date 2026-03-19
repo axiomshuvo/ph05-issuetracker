@@ -103,8 +103,8 @@ const showIssueData = (res) => {
                     
                     ${
                       issue.status == "open"
-                        ? `<img src="./assets/Open-Status.png" alt="" />`
-                        : `<img src="./assets/Closed- Status .png" alt="" />`
+                        ? `<img src="./assets/open-status.png" alt="" />`
+                        : `<img src="./assets/closed-status.png" alt="" />`
                     }
                     
                     ${(() => {
@@ -148,8 +148,13 @@ const showIssueData = (res) => {
                               icon = `<img src="./assets/lifebouy.svg" class="w-4 h-4" />`;
                             } else if (label === "enhancement") {
                               badgeColor = "badge-accent";
+                              icon = `<img src="./assets/enhancement.svg" class="w-4 h-4" />`;
+                            } else if (label === "documentation") {
+                              badgeColor = "badge-success";
+                              icon = `<img src="./assets/documentation.svg" class="w-4 h-4" />`;
                             } else if (label === "good first issue") {
                               badgeColor = "badge-success";
+                              icon = `<img src="./assets/lifebouy.svg" class="w-4 h-4" />`;
                             }
 
                             return `
@@ -283,8 +288,13 @@ displayIssueModal = (data) => {
                  icon = `<img src="./assets/lifebouy.svg" class="w-4 h-4" />`;
                } else if (label === "enhancement") {
                  badgeColor = "badge-accent";
+                 icon = `<img src="./assets/enhancement.svg" class="w-4 h-4" />`;
+               } else if (label === "documentation") {
+                 badgeColor = "badge-success";
+                 icon = `<img src="./assets/documentation.svg" class="w-4 h-4" />`;
                } else if (label === "good first issue") {
                  badgeColor = "badge-success";
+                 icon = `<img src="./assets/lifebouy.svg" class="w-4 h-4" />`;
                }
 
                return `
