@@ -415,12 +415,19 @@ const searchData = async (searchText) => {
 // bind the search form
 
 const searchForm = document.getElementById("search-form");
-searchForm.addEventListener("keyup", (e) => {
+const searchValue = document.getElementById("searching-text");
+
+searchForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const searchValue = document
-    .getElementById("searching-text")
-    .value.trim()
-    .toLowerCase();
-  //   console.log(searchValue);
-  searchData(searchValue);
+  const value = searchValue.value.trim().toLowerCase();
+  console.log(value);
+  searchData(value);
 });
+
+// searchForm.addEventListener("input", (e) => {
+//   e.preventDefault();
+//   const value = searchValue.value.trim().toLowerCase();
+//   // if()
+//   // console.log(searchValue);
+//   searchData(value);
+// });
