@@ -51,6 +51,7 @@ loginForm.addEventListener("submit", (event) => {
     header.classList.remove("hidden");
     mainSection.classList.remove("hidden");
     footer.classList.remove("hidden");
+    allDataShow();
   } else {
     alert("Username or Password is Wrong");
     loginForm.reset();
@@ -61,17 +62,18 @@ loginForm.addEventListener("submit", (event) => {
 
 const allDataShow = async () => {
   const allDataUrl = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
-
+  loader.classList.remove("hidden");
+  issueListContainer.innerHTML = "";
+  issueCountArea.classList.add("hidden");
   try {
     const res = await fetch(allDataUrl);
     const data = await res.json();
     setTimeout(() => {
       showIssueData(data);
       loader.classList.add("hidden");
-    }, 1000);
+    }, 2000);
   } catch (error) {
     console.error("Error fetching issues:", error);
-    loader.classList.add("hidden");
     issueListContainer.innerHTML =
       "<p class='text-red-500'>Failed to load issues.</p>";
   }
@@ -80,27 +82,12 @@ const allDataShow = async () => {
 const showIssueData = (res) => {
   const issueList = res.data;
   //   console.log(issueList);
-  //   id": 1,
-  // "title": "Fix navigation menu on mobile devices",
-  // "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-  // "status": "open",
-  // "labels": [
-  // "bug",
-  // "help wanted"
-  // ],
-  // "priority": "high",
-  // "author": "john_doe",
-  // "assignee": "jane_smith",
-  // "createdAt": "2024-01-15T10:30:00Z",
-  // "updatedAt": "2024-01-15T10:30:00Z"
 
   issueCount.innerHTML = `${issueList.length} Issues `;
-
   issueListContainer.innerHTML = "";
 
   issueList.forEach((issue) => {
     const singleIssue = document.createElement("div");
-
     singleIssue.innerHTML = `
   <div data-status="${issue.status}" data-issue="${issue.id}"
                   class="single-issue-card border-t-5 cursor-pointer
@@ -198,21 +185,17 @@ const showIssueData = (res) => {
                   </div>
                 </div>
   `;
-
-    issueCountArea.classList.remove("hidden");
     issueListContainer.appendChild(singleIssue);
+    issueCountArea.classList.remove("hidden");
   });
 };
-allDataShow();
 
 // tab activation and data filtering
-
-const tabs = document.querySelectorAll("#issue-tab button");
-
 const filterIssue = (status) => {
   const issueCards = document.querySelectorAll(".single-issue-card");
   let count = 0;
   //   console.log(issueCards);
+
   issueCards.forEach((card) => {
     const cardStatus = card.getAttribute("data-status");
     //     console.log(cardStatus);
@@ -227,41 +210,23 @@ const filterIssue = (status) => {
 };
 
 //tab event
+const tabs = document.querySelectorAll("#issue-tab button");
+
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     // remove styling
     //     console.log(tab);
+    const tabName = tab.dataset.tab;
+
     tabs.forEach((t) => {
       t.classList.remove("btn-primary");
       t.classList.add("btn-outline");
-      tab.classList.add("btn-primary");
-      tab.classList.remove("btn-outline");
-      const tabName = tab.textContent.trim().toLowerCase();
-      //       console.log(tabName);
-      filterIssue(tabName);
     });
+    tab.classList.add("btn-primary");
+    tab.classList.remove("btn-outline");
+    console.log(tabName);
+    filterIssue(tabName);
   });
-});
-
-// single issue load in modal popup
-
-// const singleIssue = document.querySelectorAll(".single-issue-card");
-// console.log(singleIssue);
-// singleIssue.forEach((issueCard) => {
-//   issueCard.addEventListener("click", () => {
-//     console.log("clicked", issueCard);
-//   });
-// });
-
-document.addEventListener("click", (e) => {
-  const issueCard = e.target.closest(".single-issue-card");
-
-  if (issueCard) {
-    //     console.log("clicked", issueCard);
-    const dataId = issueCard.getAttribute("data-issue");
-    //     console.log(dataId);
-    singleCard(dataId);
-  }
 });
 
 //data fetch based on id
@@ -274,7 +239,9 @@ const singleCard = async (id) => {
     const details = await res.json();
     //     console.log(details.data);
     displayIssueModal(details.data);
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // modal popup
@@ -369,3 +336,81 @@ displayIssueModal = (data) => {
   `;
   issueModal.showModal();
 };
+// single issue load in modal popup
+
+// const singleIssue = document.querySelectorAll(".single-issue-card");
+// console.log(singleIssue);
+// singleIssue.forEach((issueCard) => {
+//   issueCard.addEventListener("click", () => {
+//     console.log("clicked", issueCard);
+//   });
+// });
+
+document.addEventListener("click", (e) => {
+  const issueCard = e.target.closest(".single-issue-card");
+
+  if (issueCard) {
+    //     console.log("clicked", issueCard);
+    const dataId = issueCard.getAttribute("data-issue");
+    //     console.log(dataId);
+    singleCard(dataId);
+  }
+});
+
+// search -
+
+const searchData = async (searchText) => {
+  if (!searchText) {
+    //     console.log("trgger");
+    tabs.forEach((t) => {
+      t.classList.remove("btn-primary");
+      t.classList.add("btn-outline");
+    });
+    const allTab = document.querySelector('#issue-tab button[data-tab="all"]');
+    if (allTab) {
+      allTab.classList.add("btn-primary");
+      allTab.classList.remove("btn-outline");
+    }
+
+    allDataShow();
+    return;
+  }
+  loader.classList.remove("hidden");
+  issueListContainer.innerHTML = "";
+  try {
+    const response = await fetch(
+      `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${encodeURIComponent(searchText)}`,
+    );
+    const result = await response.json();
+    //     console.log(result);
+
+    showIssueData(result);
+    loader.classList.add("hidden");
+    filterIssue("all");
+    // active all tab
+    tabs.forEach((t) => {
+      t.classList.remove("btn-primary");
+      t.classList.add("btn-outline");
+    });
+    const allTab = document.querySelector('#issue-tab button[data-tab="all"]');
+    if (allTab) {
+      allTab.classList.add("btn-primary");
+      allTab.classList.remove("btn-outline");
+    }
+  } catch (error) {
+    console.error("Search failed:", error);
+  }
+};
+
+// bind the search form
+
+const searchForm = document.getElementById("search-form");
+searchForm.addEventListener("keyup", (e) => {
+  e.preventDefault();
+  const searchValue = document
+    .getElementById("searching-text")
+    .value.trim()
+    .toLowerCase();
+  //   console.log(searchValue);
+  searchData(searchValue);
+});

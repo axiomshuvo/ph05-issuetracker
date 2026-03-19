@@ -20,7 +20,7 @@
   </head>
 
   <body class="">
-    <header class="bg-base-100 shadow-sm">
+    <header class="hidden bg-base-100 shadow-sm">
       <div class="w-11/12 mx-auto">
         <div class="navbar">
           <div class="flex-1">
@@ -30,10 +30,15 @@
             >
           </div>
           <div class="flex gap-2">
-            <form class="join">
+            <form id="search-form" class="join">
               <div>
                 <label class="input validator join-item">
-                  <input type="text" placeholder="Search Issue" required />
+                  <input
+                    id="searching-text"
+                    type="text"
+                    placeholder="Search Issue"
+                    required
+                  />
                 </label>
               </div>
               <button class="btn join-item">
@@ -59,7 +64,7 @@
       </div>
     </header>
 
-    <section id="login" class="hidden">
+    <section id="login" class="">
       <div class="container mx-auto">
         <div class="hero min-h-screen">
           <div
@@ -83,6 +88,7 @@
                   <fieldset class="fieldset">
                     <label class="label">Username</label>
                     <input
+                      value="admin"
                       id="username"
                       type="text"
                       class="input input-md validator w-full"
@@ -95,6 +101,7 @@
                   <label class="fieldset">
                     <span class="label">Password</span>
                     <input
+                      value="admin123"
                       id="password"
                       type="password"
                       class="input input-md validator w-full"
@@ -123,7 +130,7 @@
       </div>
     </section>
 
-    <section id="maincontent" class="">
+    <section id="maincontent" class="hidden">
       <!-- Content -->
       <div id="issue-container">
         <div class="container mx-auto px-4 mt-15">
@@ -136,7 +143,7 @@
             <button data-tab="open" class="btn btn-outline btn-primary">
               Open
             </button>
-            <button data-tab="close" class="btn btn-outline btn-primary">
+            <button data-tab="closed" class="btn btn-outline btn-primary">
               Closed
             </button>
           </div>
@@ -218,7 +225,9 @@
       </div>
     </section>
 
-    <footer class="footer footer-horizontal footer-center bg-base-100 p-10">
+    <footer
+      class="hidden footer footer-horizontal footer-center bg-base-100 p-10"
+    >
       <aside>
         <img class="w-16" src="./assets/github-logo.png" alt="github-logo" />
         <p class="font-bold">GitHub Issuer</p>
@@ -274,45 +283,10 @@
     <!-- Open the modal using ID.showModal() method -->
 
     <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
-    <dialog id="issue-modal" class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box max-w-2xl">
-        <h2 class="font-bold text-2xl">Fix broken image uploads</h2>
-        <ul class="flex gap-8 list-disc">
-          <li class="list-none badge badge-success text-white">Opened</li>
-          <li>Opened By Fahim Ahmend</li>
-          <li>2202/2025</li>
-        </ul>
-        <div class="my-5">
-          <span class="uppercase badge badge-soft badge-secondary gap-1"
-            ><img src="./assets/bug.svg" alt="" />Bug</span
-          >
-          <span class="uppercase badge badge-soft badge-warning gap-1">
-            <img src="./assets/lifebouy.svg" alt="" />help wanted</span
-          >
-        </div>
-        <p class="mb-5">
-          The navigation menu doesn't collapse properly on mobile devices. Need
-          to fix the responsive behavior.
-        </p>
-        <div class="bg-gray-50 rounded-xl grid grid-cols-2 items-center p-5">
-          <div class="font-light">
-            Assignee:
-            <br />
-            <span class="font-semibold capitalize"> fahim ahmed </span>
-          </div>
-          <div class="font-light">
-            Priority: <br />
-            <span class="badge bg-red-500 text-white uppercase">High</span>
-          </div>
-        </div>
-        <div class="modal-action">
-          <form method="dialog">
-            <!-- if there is a button in form, it will close the modal -->
-            <button class="btn btn-primary">Close</button>
-          </form>
-        </div>
-      </div>
-    </dialog>
+    <dialog
+      id="issue-modal"
+      class="modal modal-bottom sm:modal-middle"
+    ></dialog>
 
     <script src="./script.js"></script>
   </body>
